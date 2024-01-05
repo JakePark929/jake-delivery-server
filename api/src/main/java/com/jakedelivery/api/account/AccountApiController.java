@@ -1,5 +1,6 @@
 package com.jakedelivery.api.account;
 
+import com.jakedelivery.api._core.common.Api;
 import com.jakedelivery.api.account.model.AccountMeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +15,13 @@ import java.time.LocalDateTime;
 public class AccountApiController {
 
     @GetMapping("/me")
-    public AccountMeResponse me() {
-        return AccountMeResponse.builder()
+    public Api<AccountMeResponse> me() {
+        var response = AccountMeResponse.builder()
                 .name("홍길동")
                 .email("A@gmail.com")
                 .registeredAt(LocalDateTime.now())
                 .build();
+
+        return Api.OK(response);
     }
 }

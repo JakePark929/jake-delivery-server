@@ -1,4 +1,4 @@
-package com.jakedelivery.api.config;
+package com.jakedelivery.api._core.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
