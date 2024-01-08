@@ -9,6 +9,10 @@ import com.jakedelivery.api.user.dto.request.UserLoginRequest;
 import com.jakedelivery.api.user.dto.request.UserRegisterRequest;
 import com.jakedelivery.api.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Business
@@ -26,6 +30,7 @@ public class UserBusiness {
     public UserResponse register(UserRegisterRequest request) {
         var entity = userConverter.toEntity(request);
         var newEntity = userService.register(entity);
+
         return userConverter.toResponse(newEntity);
     }
 
@@ -36,5 +41,13 @@ public class UserBusiness {
         // 3. token 생성
         // 4. token response
         return tokenBusiness.issueToken(userEntity);
+    }
+
+    public UserResponse me() {
+        var requestContext = Objects.requireNonNull(RequestContextHolder.getRequestAttributes());
+        var userId = requestContext.getAttribute("userId", RequestAttributes.SCOPE_REQUEST);
+        var userEntity = userService.getUserWithThrow(Long.parseLong(userId.toString()));
+
+        return userConverter.toResponse(userEntity);
     }
 }
