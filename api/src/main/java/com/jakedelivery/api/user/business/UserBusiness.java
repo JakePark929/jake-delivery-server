@@ -7,12 +7,9 @@ import com.jakedelivery.api.user.converter.UserConverter;
 import com.jakedelivery.api.user.dto.UserResponse;
 import com.jakedelivery.api.user.dto.request.UserLoginRequest;
 import com.jakedelivery.api.user.dto.request.UserRegisterRequest;
+import com.jakedelivery.api.user.model.User;
 import com.jakedelivery.api.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Business
@@ -43,11 +40,7 @@ public class UserBusiness {
         return tokenBusiness.issueToken(userEntity);
     }
 
-    public UserResponse me() {
-        var requestContext = Objects.requireNonNull(RequestContextHolder.getRequestAttributes());
-        var userId = requestContext.getAttribute("userId", RequestAttributes.SCOPE_REQUEST);
-        var userEntity = userService.getUserWithThrow(Long.parseLong(userId.toString()));
-
-        return userConverter.toResponse(userEntity);
+    public UserResponse me(User user) {
+        return userConverter.toResponse(user);
     }
 }
