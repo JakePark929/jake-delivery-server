@@ -1,6 +1,8 @@
 package com.jakedelivery.api.user.business;
 
 import com.jakedelivery.api._core.common.annotation.Business;
+import com.jakedelivery.api.token.business.TokenBusiness;
+import com.jakedelivery.api.token.dto.TokenResponse;
 import com.jakedelivery.api.user.converter.UserConverter;
 import com.jakedelivery.api.user.dto.UserResponse;
 import com.jakedelivery.api.user.dto.request.UserLoginRequest;
@@ -13,10 +15,11 @@ import lombok.RequiredArgsConstructor;
 public class UserBusiness {
     private final UserService userService;
     private final UserConverter userConverter;
+    private final TokenBusiness tokenBusiness;
 
     /**
      * [ 회원 가입 ]
-     * @param request
+     * @param request name, email, address, password
      * @return UserResponse
      * @apiNote 사용자에 대한 가입처리 로직
      */
@@ -26,12 +29,12 @@ public class UserBusiness {
         return userConverter.toResponse(newEntity);
     }
 
-    public UserResponse login(UserLoginRequest request) {
+    public TokenResponse login(UserLoginRequest request) {
         // 1. email, user 를 가지고 사용자 체크
         // 2. user entity 로그인 확인
         var userEntity = userService.login(request.getEmail(), request.getPassword());
-        // 3. TODO: token 생성
+        // 3. token 생성
         // 4. token response
-        return userConverter.toResponse(userEntity);
+        return tokenBusiness.issueToken(userEntity);
     }
 }

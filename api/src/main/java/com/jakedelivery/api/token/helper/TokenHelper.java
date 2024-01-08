@@ -2,8 +2,8 @@ package com.jakedelivery.api.token.helper;
 
 import com.jakedelivery.api._core.common.error.TokenErrorCode;
 import com.jakedelivery.api._core.common.exception.ApiException;
-import com.jakedelivery.api.token.dto.TokenDto;
 import com.jakedelivery.api.token.ifs.TokenHelperIfs;
+import com.jakedelivery.api.token.model.Token;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class JwtTokenHelper implements TokenHelperIfs {
+public class TokenHelper implements TokenHelperIfs {
     @Value("${token.secret.key}")
     private String secretKey;
     @Value("${token.access-token.plus-hour}")
@@ -28,13 +28,13 @@ public class JwtTokenHelper implements TokenHelperIfs {
     private Long refreshTokenPlusHour;
 
     @Override
-    public TokenDto issueAccessToken(Map<String, Object> data) {
+    public Token issueAccessToken(Map<String, Object> data) {
         var expiredLocalDateTime = LocalDateTime.now().plusHours(accessTokenPlusHour);
         return getTokenDto(data, expiredLocalDateTime);
     }
 
     @Override
-    public TokenDto issueRefreshToken(Map<String, Object> data) {
+    public Token issueRefreshToken(Map<String, Object> data) {
         var expiredLocalDateTime = LocalDateTime.now().plusHours(refreshTokenPlusHour);
         return getTokenDto(data, expiredLocalDateTime);
     }
@@ -62,7 +62,7 @@ public class JwtTokenHelper implements TokenHelperIfs {
         }
     }
 
-    private TokenDto getTokenDto(Map<String, Object> data, LocalDateTime expiredLocalDateTime) {
+    private Token getTokenDto(Map<String, Object> data, LocalDateTime expiredLocalDateTime) {
         var expiredAt = Date.from(expiredLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
         var key = Keys.hmacShaKeyFor(secretKey.getBytes());
@@ -73,7 +73,7 @@ public class JwtTokenHelper implements TokenHelperIfs {
                 .setExpiration(expiredAt)
                 .compact();
 
-        return TokenDto.builder()
+        return Token.builder()
                 .token(jwtToken)
                 .expiredAt(expiredLocalDateTime)
                 .build();
