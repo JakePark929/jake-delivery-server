@@ -7,7 +7,9 @@ import com.jakedelivery.api.storemenu.dto.StoreMenuRegisterRequest;
 import com.jakedelivery.api.storemenu.dto.StoreMenuResponse;
 import com.jakedelivery.db.storemenu.StoreMenuEntity;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Converter
 public class StoreMenuConverter {
@@ -35,5 +37,11 @@ public class StoreMenuConverter {
                         .sequence(storeMenuEntity.getSequence())
                         .build())
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
+    }
+
+    public List<StoreMenuResponse> toResponse(List<StoreMenuEntity> entities) {
+        return entities.stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 }
