@@ -5,15 +5,14 @@ import com.jakedelivery.api._core.common.annotation.UserSession;
 import com.jakedelivery.api.user.model.User;
 import com.jakedelivery.api.userorder.business.UserOrderBusiness;
 import com.jakedelivery.api.userorder.dto.UserOrderRequest;
-import com.jakedelivery.api.userorder.dto.UserOrderResponse;
+import com.jakedelivery.api.userorder.dto.response.UserOrderDetailResponse;
+import com.jakedelivery.api.userorder.dto.response.UserOrderResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/user-order")
@@ -28,6 +27,33 @@ public class UserOrderApiController {
             @Parameter(hidden = true) @UserSession User user
     ) {
         var response = userOrderBusiness.userOrder(user, userOrderRequest.getBody());
+
+        return Api.OK(response);
+    }
+    
+    // 현재 진행 중인 주문 건
+    @GetMapping("/current")
+    public Api<List<UserOrderDetailResponse>> current(@Parameter(hidden = true) @UserSession User user) {
+        var response = userOrderBusiness.current(user);
+
+        return Api.OK(response);
+    }
+    
+    // 과거 주문 내역
+    @GetMapping("/history")
+    public Api<List<UserOrderDetailResponse>> history(@Parameter(hidden = true) @UserSession User user) {
+        var response = userOrderBusiness.history(user);
+
+        return Api.OK(response);
+    }
+    
+    // 주문 1건에 대한 내역
+    @GetMapping("/id/{orderId}")
+    public Api<UserOrderDetailResponse> read(
+            @Parameter(hidden = true) @UserSession User user,
+            @PathVariable Long orderId
+    ) {
+        var response = userOrderBusiness.read(user, orderId);
 
         return Api.OK(response);
     }

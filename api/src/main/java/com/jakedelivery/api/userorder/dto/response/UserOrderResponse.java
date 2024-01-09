@@ -1,4 +1,4 @@
-package com.jakedelivery.api.userorder.dto;
+package com.jakedelivery.api.userorder.dto.response;
 
 import com.jakedelivery.db._common.constant.UserOrderStatus;
 import lombok.AllArgsConstructor;
