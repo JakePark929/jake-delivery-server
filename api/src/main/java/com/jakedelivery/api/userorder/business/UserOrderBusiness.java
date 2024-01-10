@@ -10,6 +10,7 @@ import com.jakedelivery.api.userorder.converter.UserOrderConverter;
 import com.jakedelivery.api.userorder.dto.UserOrderRequest;
 import com.jakedelivery.api.userorder.dto.response.UserOrderDetailResponse;
 import com.jakedelivery.api.userorder.dto.response.UserOrderResponse;
+import com.jakedelivery.api.userorder.producer.UserOrderProducer;
 import com.jakedelivery.api.userorder.service.UserOrderService;
 import com.jakedelivery.api.userordermenu.converter.UserOrderMenuConverter;
 import com.jakedelivery.api.userordermenu.service.UserOrderMenuService;
@@ -29,6 +30,7 @@ public class UserOrderBusiness {
     private final StoreMenuConverter storeMenuConverter;
     private final UserOrderMenuConverter userOrderMenuConverter;
     private final UserOrderMenuService userOrderMenuService;
+    private final UserOrderProducer userOrderProducer;
 
     // 1. 사용자, 메뉴 id
     // 2. userOrder 생성
@@ -53,6 +55,9 @@ public class UserOrderBusiness {
                 .collect(Collectors.toList());
 
         userOrderMenuEntities.forEach(userOrderMenuService::order);
+
+        // 비동기로 가맹점에 주문 날리기!
+        userOrderProducer.sendOrder(newUserOrderEntity);
 
         return userOrderConverter.toResponse(newUserOrderEntity);
     }
