@@ -41,7 +41,7 @@ public class UserOrderBusiness {
                 .map(storeMenuService::getStoreMenuWithThrow)
                 .collect(Collectors.toList());
 
-        var userOrderEntity = userOrderConverter.toEntity(user, storeMenuEntities);
+        var userOrderEntity = userOrderConverter.toEntity(user, request.getStoreId(), storeMenuEntities);
 
         // 주문
         var newUserOrderEntity = userOrderService.order(userOrderEntity);
