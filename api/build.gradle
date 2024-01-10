@@ -42,6 +42,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
     implementation project(':db')
+    implementation project(':common')
 }
 
 test {
