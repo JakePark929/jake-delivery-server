@@ -1,7 +1,7 @@
 package com.jakedelivery.api._core.config
 
-import com.jakedelivery.api._core.common.resolver.UserSessionResolver
 import com.jakedelivery.api._core.interceptor.AuthorizationInterceptor
+import com.jakedelivery.api._core.resolver.UserSessionResolver
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
