@@ -3,6 +3,7 @@ package com.jakedelivery.api.userorder.converter;
 import com.jakedelivery.api.user.model.User;
 import com.jakedelivery.api.userorder.dto.response.UserOrderResponse;
 import com.jakedelivery.common.annotation.Converter;
+import com.jakedelivery.db.store.StoreEntity;
 import com.jakedelivery.db.storemenu.StoreMenuEntity;
 import com.jakedelivery.db.userorder.UserOrderEntity;
 
@@ -11,14 +12,14 @@ import java.util.List;
 
 @Converter
 public class UserOrderConverter {
-    public UserOrderEntity toEntity(User user, Long storeId, List<StoreMenuEntity> storeMenuEntities) {
+    public UserOrderEntity toEntity(User user, StoreEntity storeEntity, List<StoreMenuEntity> storeMenuEntities) {
         var totalAmount = storeMenuEntities.stream()
                 .map(StoreMenuEntity::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return UserOrderEntity.builder()
                 .userId(user.getId())
-                .storeId(storeId)
+                .store(storeEntity)
                 .amount(totalAmount)
                 .build();
     }

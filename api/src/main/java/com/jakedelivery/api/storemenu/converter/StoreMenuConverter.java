@@ -5,6 +5,7 @@ import com.jakedelivery.api.storemenu.dto.StoreMenuResponse;
 import com.jakedelivery.common.annotation.Converter;
 import com.jakedelivery.common.error.ErrorCode;
 import com.jakedelivery.common.exception.ApiException;
+import com.jakedelivery.db.store.StoreEntity;
 import com.jakedelivery.db.storemenu.StoreMenuEntity;
 
 import java.util.List;
@@ -13,10 +14,13 @@ import java.util.stream.Collectors;
 
 @Converter
 public class StoreMenuConverter {
-    public StoreMenuEntity toEntity(StoreMenuRegisterRequest request) {
+    public StoreMenuEntity toEntity(
+            StoreEntity storeEntity,
+            StoreMenuRegisterRequest request
+    ) {
         return Optional.ofNullable(request)
                 .map(it -> StoreMenuEntity.builder()
-                        .storeId(request.getStoreId())
+                        .store(storeEntity)
                         .name(request.getName())
                         .amount(request.getAmount())
                         .thumbnailUrl(request.getThumbnailUrl())
@@ -28,7 +32,7 @@ public class StoreMenuConverter {
         return Optional.ofNullable(storeMenuEntity)
                 .map(it -> StoreMenuResponse.builder()
                         .id(storeMenuEntity.getId())
-                        .storeId(storeMenuEntity.getStoreId())
+                        .storeId(storeMenuEntity.getStore().getId())
                         .name(storeMenuEntity.getName())
                         .amount(storeMenuEntity.getAmount())
                         .status(storeMenuEntity.getStatus())
