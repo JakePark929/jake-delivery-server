@@ -1,8 +1,8 @@
 package com.jakedelivery.api._core.common.resolver;
 
-import com.jakedelivery.api._core.common.annotation.UserSession;
 import com.jakedelivery.api.user.model.User;
 import com.jakedelivery.api.user.service.UserService;
+import com.jakedelivery.common.annotation.UserSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

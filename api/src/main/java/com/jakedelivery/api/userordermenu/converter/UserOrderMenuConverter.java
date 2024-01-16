@@ -1,6 +1,6 @@
 package com.jakedelivery.api.userordermenu.converter;
 
-import com.jakedelivery.api._core.common.annotation.Converter;
+import com.jakedelivery.common.annotation.Converter;
 import com.jakedelivery.db.storemenu.StoreMenuEntity;
 import com.jakedelivery.db.userorder.UserOrderEntity;
 import com.jakedelivery.db.userordermenu.UserOrderMenuEntity;

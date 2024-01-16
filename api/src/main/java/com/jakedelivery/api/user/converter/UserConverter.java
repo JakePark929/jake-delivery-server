@@ -1,11 +1,11 @@
 package com.jakedelivery.api.user.converter;
 
-import com.jakedelivery.api._core.common.annotation.Converter;
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
 import com.jakedelivery.api.user.dto.UserResponse;
 import com.jakedelivery.api.user.dto.request.UserRegisterRequest;
 import com.jakedelivery.api.user.model.User;
+import com.jakedelivery.common.annotation.Converter;
+import com.jakedelivery.common.error.ErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import com.jakedelivery.db.user.UserEntity;
 import lombok.RequiredArgsConstructor;
 

@@ -1,12 +1,6 @@
 package com.jakedelivery.api._core.common;
 
-import com.jakedelivery.api._core.common.error.ErrorCodeIfs;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.validation.Valid;
-
+/*
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -47,3 +41,4 @@ public class Api<T> {
         return api;
     }
 }
+*/

@@ -1,10 +1,10 @@
 package com.jakedelivery.api.storemenu.business;
 
-import com.jakedelivery.api._core.common.annotation.Business;
 import com.jakedelivery.api.storemenu.converter.StoreMenuConverter;
 import com.jakedelivery.api.storemenu.dto.StoreMenuRegisterRequest;
 import com.jakedelivery.api.storemenu.dto.StoreMenuResponse;
 import com.jakedelivery.api.storemenu.service.StoreMenuService;
+import com.jakedelivery.common.annotation.Business;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

@@ -1,9 +1,6 @@
 package com.jakedelivery.api._core.common.error;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.springframework.http.HttpStatus;
-
+/*
 @Getter
 @AllArgsConstructor
 public enum ErrorCode implements ErrorCodeIfs {
@@ -17,3 +14,4 @@ public enum ErrorCode implements ErrorCodeIfs {
     private final Integer errorCode;
     private final String description;
 }
+*/

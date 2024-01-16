@@ -1,8 +1,6 @@
 package com.jakedelivery.api._core.common.exception;
 
-import com.jakedelivery.api._core.common.error.ErrorCodeIfs;
-import lombok.Getter;
-
+/*
 @Getter
 public class ApiException extends RuntimeException implements ApiExceptionIfs {
     private final ErrorCodeIfs errorCodeIfs;
@@ -32,3 +30,4 @@ public class ApiException extends RuntimeException implements ApiExceptionIfs {
         this.errorDescription = errorDescription;
     }
 }
+*/

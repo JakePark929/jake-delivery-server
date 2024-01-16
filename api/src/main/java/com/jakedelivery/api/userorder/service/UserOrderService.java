@@ -1,7 +1,7 @@
 package com.jakedelivery.api.userorder.service;
 
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
+import com.jakedelivery.common.error.ErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import com.jakedelivery.db._common.constant.UserOrderStatus;
 import com.jakedelivery.db.userorder.UserOrderEntity;
 import com.jakedelivery.db.userorder.UserOrderRepository;

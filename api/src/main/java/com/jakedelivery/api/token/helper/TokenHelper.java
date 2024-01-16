@@ -1,9 +1,9 @@
 package com.jakedelivery.api.token.helper;
 
-import com.jakedelivery.api._core.common.error.TokenErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
 import com.jakedelivery.api.token.ifs.TokenHelperIfs;
 import com.jakedelivery.api.token.model.Token;
+import com.jakedelivery.common.error.TokenErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

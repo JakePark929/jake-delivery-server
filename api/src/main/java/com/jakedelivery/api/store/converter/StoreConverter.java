@@ -1,10 +1,10 @@
 package com.jakedelivery.api.store.converter;
 
-import com.jakedelivery.api._core.common.annotation.Converter;
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
 import com.jakedelivery.api.store.dto.StoreRegisterRequest;
 import com.jakedelivery.api.store.dto.StoreResponse;
+import com.jakedelivery.common.annotation.Converter;
+import com.jakedelivery.common.error.ErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import com.jakedelivery.db.store.StoreEntity;
 
 import java.util.Optional;

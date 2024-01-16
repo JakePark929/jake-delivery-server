@@ -1,6 +1,5 @@
 package com.jakedelivery.api.user.business;
 
-import com.jakedelivery.api._core.common.annotation.Business;
 import com.jakedelivery.api.token.business.TokenBusiness;
 import com.jakedelivery.api.token.dto.TokenResponse;
 import com.jakedelivery.api.user.converter.UserConverter;
@@ -9,6 +8,7 @@ import com.jakedelivery.api.user.dto.request.UserLoginRequest;
 import com.jakedelivery.api.user.dto.request.UserRegisterRequest;
 import com.jakedelivery.api.user.model.User;
 import com.jakedelivery.api.user.service.UserService;
+import com.jakedelivery.common.annotation.Business;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

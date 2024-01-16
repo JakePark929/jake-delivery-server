@@ -1,12 +1,9 @@
 package com.jakedelivery.api._core.common.error;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.springframework.http.HttpStatus;
-
 /**
  * Token 의 경우 2000번대 에러코드 사용
  */
+/*
 @Getter
 @AllArgsConstructor
 public enum TokenErrorCode implements ErrorCodeIfs {
@@ -20,3 +17,4 @@ public enum TokenErrorCode implements ErrorCodeIfs {
     private final Integer errorCode;
     private final String description;
 }
+*/

@@ -1,9 +1,9 @@
 package com.jakedelivery.api.storemenu.controller;
 
-import com.jakedelivery.api._core.common.Api;
 import com.jakedelivery.api.storemenu.business.StoreMenuBusiness;
 import com.jakedelivery.api.storemenu.dto.StoreMenuRegisterRequest;
 import com.jakedelivery.api.storemenu.dto.StoreMenuResponse;
+import com.jakedelivery.common.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

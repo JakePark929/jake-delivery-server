@@ -1,12 +1,6 @@
 package com.jakedelivery.api._core.common;
 
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.error.ErrorCodeIfs;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+/*
 @Builder
 @Data
 @NoArgsConstructor
@@ -48,3 +42,4 @@ public class Result {
                 .build();
     }
 }
+*/
