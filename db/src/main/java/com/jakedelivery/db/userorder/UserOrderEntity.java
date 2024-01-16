@@ -1,13 +1,11 @@
 package com.jakedelivery.db.userorder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jakedelivery.db.BaseEntity;
 import com.jakedelivery.db._common.constant.UserOrderStatus;
 import com.jakedelivery.db.store.StoreEntity;
 import com.jakedelivery.db.userordermenu.UserOrderMenuEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -43,6 +41,8 @@ public class UserOrderEntity extends BaseEntity {
     private LocalDateTime deliveryStartedAt;
     private LocalDateTime receivedAt;
 
+    @JsonIgnore
+    @ToString.Exclude
     @OneToMany(mappedBy = "userOrder")
     private List<UserOrderMenuEntity> userOrderMenuEntities;
 }

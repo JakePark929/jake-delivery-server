@@ -1,5 +1,7 @@
 package com.jakedelivery.api.userorder.business;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jakedelivery.api.store.converter.StoreConverter;
 import com.jakedelivery.api.store.service.StoreService;
 import com.jakedelivery.api.storemenu.converter.StoreMenuConverter;
@@ -15,10 +17,12 @@ import com.jakedelivery.api.userordermenu.converter.UserOrderMenuConverter;
 import com.jakedelivery.api.userordermenu.service.UserOrderMenuService;
 import com.jakedelivery.common.annotation.Business;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Business
 public class UserOrderBusiness {
@@ -31,6 +35,7 @@ public class UserOrderBusiness {
     private final UserOrderMenuConverter userOrderMenuConverter;
     private final UserOrderMenuService userOrderMenuService;
     private final UserOrderProducer userOrderProducer;
+    private final ObjectMapper objectMapper;
 
     // 1. 사용자, 메뉴 id
     // 2. userOrder 생성
@@ -68,27 +73,34 @@ public class UserOrderBusiness {
         var userOrderEntities = userOrderService.current(user.getId());
 
         // 주문 1건씩 처리
-        return userOrderEntities.stream()
-                .map(it -> {
-                    // 사용자가 주문한 메뉴
-                    var userOrderMenuEntities = userOrderMenuService.getUserOrderMenu(it.getId());
-                    var storeMenuEntities = userOrderMenuEntities.stream()
-                            .map(userOrderMenuEntity ->
-                                    storeMenuService.getStoreMenuWithThrow(userOrderMenuEntity.getStoreMenu().getId())
-                            )
-                            .collect(Collectors.toList());
+        return userOrderEntities.stream().map(it -> {
+//            log.info("사용자의 주문 정보 : {}", it);
+            try {
+                var jsonString = objectMapper.writeValueAsString(it);
+                log.info("json string : {}", jsonString);
+            } catch (JsonProcessingException e) {
+                log.error("", e);
+            }
 
-                    // TODO: Null point 리팩토링 필요
-                    // 사용자가 주문한 스토어
-                    var storeEntity =
-                            storeService.getStoreWithThrow(storeMenuEntities.stream().findFirst().get().getStore().getId());
+            // 사용자가 주문한 메뉴
+            var userOrderMenuEntities = userOrderMenuService.getUserOrderMenu(it.getId());
+            var storeMenuEntities = userOrderMenuEntities.stream()
+                    .map(userOrderMenuEntity ->
+                            storeMenuService.getStoreMenuWithThrow(userOrderMenuEntity.getStoreMenu().getId())
+                    )
+                    .collect(Collectors.toList());
 
-                    return UserOrderDetailResponse.builder()
-                            .userOrderResponse(userOrderConverter.toResponse(it))
-                            .storeMenuResponses(storeMenuConverter.toResponse(storeMenuEntities))
-                            .storeResponse(storeConverter.toResponse(storeEntity))
-                            .build();
-                }).collect(Collectors.toList());
+            // TODO: Null point 리팩토링 필요
+            // 사용자가 주문한 스토어
+            var storeEntity =
+                    storeService.getStoreWithThrow(storeMenuEntities.stream().findFirst().get().getStore().getId());
+
+            return UserOrderDetailResponse.builder()
+                    .userOrderResponse(userOrderConverter.toResponse(it))
+                    .storeMenuResponses(storeMenuConverter.toResponse(storeMenuEntities))
+                    .storeResponse(storeConverter.toResponse(storeEntity))
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     public List<UserOrderDetailResponse> history(User user) {
