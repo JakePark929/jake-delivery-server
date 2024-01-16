@@ -1,4 +1,4 @@
-package com.jakedelivery.api._core.common.resolver;
+package com.jakedelivery.api._core.resolver;
 
 import com.jakedelivery.api.user.model.User;
 import com.jakedelivery.api.user.service.UserService;
