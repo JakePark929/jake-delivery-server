@@ -1,7 +1,5 @@
 package com.jakedelivery.api.userorder.business;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jakedelivery.api.store.converter.StoreConverter;
 import com.jakedelivery.api.store.service.StoreService;
 import com.jakedelivery.api.storemenu.converter.StoreMenuConverter;
@@ -16,6 +14,8 @@ import com.jakedelivery.api.userorder.service.UserOrderService;
 import com.jakedelivery.api.userordermenu.converter.UserOrderMenuConverter;
 import com.jakedelivery.api.userordermenu.service.UserOrderMenuService;
 import com.jakedelivery.common.annotation.Business;
+import com.jakedelivery.db._common.constant.UserOrderMenuStatus;
+import com.jakedelivery.db.userordermenu.UserOrderMenuEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +35,6 @@ public class UserOrderBusiness {
     private final UserOrderMenuConverter userOrderMenuConverter;
     private final UserOrderMenuService userOrderMenuService;
     private final UserOrderProducer userOrderProducer;
-    private final ObjectMapper objectMapper;
 
     // 1. 사용자, 메뉴 id
     // 2. userOrder 생성
@@ -73,30 +72,22 @@ public class UserOrderBusiness {
         var userOrderEntities = userOrderService.current(user.getId());
 
         // 주문 1건씩 처리
-        return userOrderEntities.stream().map(it -> {
-//            log.info("사용자의 주문 정보 : {}", it);
-            try {
-                var jsonString = objectMapper.writeValueAsString(it);
-                log.info("json string : {}", jsonString);
-            } catch (JsonProcessingException e) {
-                log.error("", e);
-            }
 
+        return userOrderEntities.stream().map(userOrderEntity -> {
             // 사용자가 주문한 메뉴
-            var userOrderMenuEntities = userOrderMenuService.getUserOrderMenu(it.getId());
-            var storeMenuEntities = userOrderMenuEntities.stream()
-                    .map(userOrderMenuEntity ->
-                            storeMenuService.getStoreMenuWithThrow(userOrderMenuEntity.getStoreMenu().getId())
-                    )
+            var userOrderMenuEntities = userOrderEntity.getUserOrderMenuEntities().stream()
+                    .filter(it -> it.getStatus().equals(UserOrderMenuStatus.REGISTERED))
                     .collect(Collectors.toList());
 
-            // TODO: Null point 리팩토링 필요
+            var storeMenuEntities = userOrderMenuEntities.stream()
+                    .map(UserOrderMenuEntity::getStoreMenu)
+                    .collect(Collectors.toList());
+
             // 사용자가 주문한 스토어
-            var storeEntity =
-                    storeService.getStoreWithThrow(storeMenuEntities.stream().findFirst().get().getStore().getId());
+            var storeEntity = userOrderEntity.getStore();
 
             return UserOrderDetailResponse.builder()
-                    .userOrderResponse(userOrderConverter.toResponse(it))
+                    .userOrderResponse(userOrderConverter.toResponse(userOrderEntity))
                     .storeMenuResponses(storeMenuConverter.toResponse(storeMenuEntities))
                     .storeResponse(storeConverter.toResponse(storeEntity))
                     .build();
@@ -107,44 +98,41 @@ public class UserOrderBusiness {
         var userOrderEntities = userOrderService.history(user.getId());
 
         // 주문 1건씩 처리
-        return userOrderEntities.stream()
-                .map(it -> {
-                    // 사용자가 주문한 메뉴
-                    var userOrderMenuEntities = userOrderMenuService.getUserOrderMenu(it.getId());
-                    var storeMenuEntities = userOrderMenuEntities.stream()
-                            .map(userOrderMenuEntity ->
-                                    storeMenuService.getStoreMenuWithThrow(userOrderMenuEntity.getStoreMenu().getId())
-                            )
-                            .collect(Collectors.toList());
+        return userOrderEntities.stream().map(userOrderEntity -> {
+            // 사용자가 주문한 메뉴
+            var userOrderMenuEntities = userOrderEntity.getUserOrderMenuEntities().stream()
+                    .filter(it -> it.getStatus().equals(UserOrderMenuStatus.REGISTERED))
+                    .collect(Collectors.toList());
 
-                    // TODO: Null point 리팩토링 필요
-                    // 사용자가 주문한 스토어
-                    var storeEntity =
-                            storeService.getStoreWithThrow(storeMenuEntities.stream().findFirst().get().getStore().getId());
+            var storeMenuEntities = userOrderMenuEntities.stream()
+                    .map(UserOrderMenuEntity::getStoreMenu)
+                    .collect(Collectors.toList());
 
-                    return UserOrderDetailResponse.builder()
-                            .userOrderResponse(userOrderConverter.toResponse(it))
-                            .storeMenuResponses(storeMenuConverter.toResponse(storeMenuEntities))
-                            .storeResponse(storeConverter.toResponse(storeEntity))
-                            .build();
-                }).collect(Collectors.toList());
+            // 사용자가 주문한 스토어
+            var storeEntity = userOrderEntity.getStore();
+
+            return UserOrderDetailResponse.builder()
+                    .userOrderResponse(userOrderConverter.toResponse(userOrderEntity))
+                    .storeMenuResponses(storeMenuConverter.toResponse(storeMenuEntities))
+                    .storeResponse(storeConverter.toResponse(storeEntity))
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     public UserOrderDetailResponse read(User user, Long orderId) {
         var userOrderEntity = userOrderService.getUserOrderWithOutStatusWithThrow(orderId, user.getId());
 
         // 사용자가 주문한 메뉴
-        var userOrderMenuEntities = userOrderMenuService.getUserOrderMenu(userOrderEntity.getId());
-        var storeMenuEntities = userOrderMenuEntities.stream()
-                .map(userOrderMenuEntity ->
-                        storeMenuService.getStoreMenuWithThrow(userOrderMenuEntity.getStoreMenu().getId())
-                )
+        var userOrderMenuEntities = userOrderEntity.getUserOrderMenuEntities().stream()
+                .filter(it -> it.getStatus().equals(UserOrderMenuStatus.REGISTERED))
                 .collect(Collectors.toList());
 
-        // TODO: Null point 리팩토링 필요
+        var storeMenuEntities = userOrderMenuEntities.stream()
+                .map(UserOrderMenuEntity::getStoreMenu)
+                .collect(Collectors.toList());
+
         // 사용자가 주문한 스토어
-        var storeEntity =
-                storeService.getStoreWithThrow(storeMenuEntities.stream().findFirst().get().getStore().getId());
+        var storeEntity = userOrderEntity.getStore();
 
         return UserOrderDetailResponse.builder()
                 .userOrderResponse(userOrderConverter.toResponse(userOrderEntity))
