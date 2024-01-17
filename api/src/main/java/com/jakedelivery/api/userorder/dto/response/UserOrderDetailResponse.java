@@ -2,6 +2,7 @@ package com.jakedelivery.api.userorder.dto.response;
 
 import com.jakedelivery.api.store.dto.StoreResponse;
 import com.jakedelivery.api.storemenu.dto.StoreMenuResponse;
+import com.jakedelivery.api.userorder.dto.UserOrderResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
