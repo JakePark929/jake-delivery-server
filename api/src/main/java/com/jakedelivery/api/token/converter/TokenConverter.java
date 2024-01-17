@@ -1,10 +1,10 @@
 package com.jakedelivery.api.token.converter;
 
-import com.jakedelivery.api._core.common.annotation.Converter;
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
 import com.jakedelivery.api.token.dto.TokenResponse;
 import com.jakedelivery.api.token.model.Token;
+import com.jakedelivery.common.annotation.Converter;
+import com.jakedelivery.common.error.ErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Objects;

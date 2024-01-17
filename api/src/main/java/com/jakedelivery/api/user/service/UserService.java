@@ -1,8 +1,8 @@
 package com.jakedelivery.api.user.service;
 
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.error.UserErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
+import com.jakedelivery.common.error.ErrorCode;
+import com.jakedelivery.common.error.UserErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import com.jakedelivery.db._common.constant.UserStatus;
 import com.jakedelivery.db.user.UserEntity;
 import com.jakedelivery.db.user.UserRepository;
@@ -35,12 +35,23 @@ public class UserService {
     }
 
     public UserEntity getUserWithThrow(String email, String password) {
-        return userRepository.findFirstByEmailAndPasswordAndStatusOrderByIdDesc(email, password, UserStatus.REGISTERED)
+        return Optional.ofNullable(
+                    userRepository.findFirstByEmailAndPasswordAndStatusOrderByIdDesc(
+                            email,
+                            password,
+                            UserStatus.REGISTERED
+                    )
+                )
                 .orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
     }
 
     public UserEntity getUserWithThrow(Long userId) {
-        return userRepository.findFirstByIdAndStatusOrderByIdDesc(userId, UserStatus.REGISTERED)
+        return Optional.ofNullable(
+                    userRepository.findFirstByIdAndStatusOrderByIdDesc(
+                            userId,
+                            UserStatus.REGISTERED
+                    )
+                )
                 .orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
     }
 }

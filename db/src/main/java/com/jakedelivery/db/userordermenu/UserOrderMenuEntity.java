@@ -2,6 +2,8 @@ package com.jakedelivery.db.userordermenu;
 
 import com.jakedelivery.db.BaseEntity;
 import com.jakedelivery.db._common.constant.UserOrderMenuStatus;
+import com.jakedelivery.db.storemenu.StoreMenuEntity;
+import com.jakedelivery.db.userorder.UserOrderEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,11 +20,13 @@ import javax.persistence.*;
 @Table(name = "user_order_menu")
 @Entity
 public class UserOrderMenuEntity extends BaseEntity {
-    @Column(nullable = false)
-    private Long userOrderId; // 1:n
+    @JoinColumn(nullable = false, name="userOrderId")
+    @ManyToOne
+    private UserOrderEntity userOrder; // n : 1
 
-    @Column(nullable = false)
-    private Long storeMenuId;
+    @JoinColumn(nullable = false, name="storeMenuId")
+    @ManyToOne
+    private StoreMenuEntity storeMenu; // n : 1
 
     @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)

@@ -1,5 +1,8 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id 'java'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 group 'com'
@@ -20,6 +23,14 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
 
+    // https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api
+    implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '2.0.2'
+
+    // https://mvnrepository.com/artifact/org.springframework/spring-core
+    implementation group: 'org.springframework', name: 'spring-core', version: '5.3.26'
+    // https://mvnrepository.com/artifact/org.springframework/spring-context
+    implementation group: 'org.springframework', name: 'spring-context', version: '5.3.26'
+
     // testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     // testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
@@ -30,4 +41,11 @@ test {
 
 jar {
     enabled = true
+}
+
+tasks.withType(KotlinCompile) {
+    kotlinOptions {
+        freeCompilerArgs += '-Xjsr305=strict'
+        jvmTarget = '11'
+    }
 }

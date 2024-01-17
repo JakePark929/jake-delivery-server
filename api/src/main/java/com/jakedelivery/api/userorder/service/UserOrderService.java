@@ -1,7 +1,7 @@
 package com.jakedelivery.api.userorder.service;
 
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
+import com.jakedelivery.common.error.ErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import com.jakedelivery.db._common.constant.UserOrderStatus;
 import com.jakedelivery.db.userorder.UserOrderEntity;
 import com.jakedelivery.db.userorder.UserOrderRepository;
@@ -18,12 +18,18 @@ public class UserOrderService {
     private final UserOrderRepository userOrderRepository;
 
     public UserOrderEntity getUserOrderWithOutStatusWithThrow(Long id, Long userId) {
-        return userOrderRepository.findAllByIdAndUserId(id, userId)
+        return Optional.ofNullable(userOrderRepository.findAllByIdAndUserId(id, userId))
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
     }
 
     public UserOrderEntity getUserOrderWithThrow(Long id, Long userId) {
-        return userOrderRepository.findAllByIdAndStatusAndUserId(id, UserOrderStatus.REGISTERED, userId)
+        return Optional.ofNullable(
+                        userOrderRepository.findAllByIdAndStatusAndUserId(
+                                id,
+                                UserOrderStatus.REGISTERED,
+                                userId
+                        )
+                )
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
     }
 
@@ -40,10 +46,10 @@ public class UserOrderService {
         return getUserOrderList(
                 userId,
                 List.of(
-                    UserOrderStatus.ORDER,
-                    UserOrderStatus.ACCEPT,
-                    UserOrderStatus.COOKING,
-                    UserOrderStatus.DELIVERY
+                        UserOrderStatus.ORDER,
+                        UserOrderStatus.ACCEPT,
+                        UserOrderStatus.COOKING,
+                        UserOrderStatus.DELIVERY
                 )
         );
     }

@@ -1,7 +1,7 @@
 package com.jakedelivery.api.store.service;
 
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
+import com.jakedelivery.common.error.ErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import com.jakedelivery.db._common.constant.StoreCategory;
 import com.jakedelivery.db._common.constant.StoreStatus;
 import com.jakedelivery.db.store.StoreEntity;
@@ -20,7 +20,7 @@ public class StoreService {
     // 유효한 스토어 가져오기
     public StoreEntity getStoreWithThrow(Long id) {
         var entity = storeRepository.findFirstByIdAndStatusOrderByIdDesc(id, StoreStatus.REGISTERED);
-        return entity.orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
+        return Optional.ofNullable(entity).orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
     }
 
     // 스토어 등록

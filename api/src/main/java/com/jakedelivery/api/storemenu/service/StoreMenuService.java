@@ -1,7 +1,7 @@
 package com.jakedelivery.api.storemenu.service;
 
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
+import com.jakedelivery.common.error.ErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import com.jakedelivery.db._common.constant.StoreMenuStatus;
 import com.jakedelivery.db.storemenu.StoreMenuEntity;
 import com.jakedelivery.db.storemenu.StoreMenuRepository;
@@ -18,7 +18,7 @@ public class StoreMenuService {
 
     public StoreMenuEntity getStoreMenuWithThrow(Long id) {
         var entity = storeMenuRepository.findFirstByIdAndStatusOrderByIdDesc(id, StoreMenuStatus.REGISTERED);
-        return entity.orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
+        return Optional.ofNullable(entity).orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
     }
 
     public List<StoreMenuEntity> getStoreMenuByStoreId(Long storeId) {

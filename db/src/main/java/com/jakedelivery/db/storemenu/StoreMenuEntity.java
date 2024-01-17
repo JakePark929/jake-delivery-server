@@ -2,6 +2,7 @@ package com.jakedelivery.db.storemenu;
 
 import com.jakedelivery.db.BaseEntity;
 import com.jakedelivery.db._common.constant.StoreMenuStatus;
+import com.jakedelivery.db.store.StoreEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,8 +20,9 @@ import java.math.BigDecimal;
 @Table(name = "store_menu")
 @Entity
 public class StoreMenuEntity extends BaseEntity {
-    @Column(nullable = false)
-    private Long storeId;
+    @JoinColumn(nullable = false, name = "storeId")
+    @ManyToOne
+    private StoreEntity store;
 
     @Column(length = 100, nullable = false)
     private String name;

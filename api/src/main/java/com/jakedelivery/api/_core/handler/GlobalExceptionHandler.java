@@ -1,7 +1,7 @@
 package com.jakedelivery.api._core.handler;
 
-import com.jakedelivery.api._core.common.Api;
-import com.jakedelivery.api._core.common.error.ErrorCode;
+import com.jakedelivery.common.Api;
+import com.jakedelivery.common.error.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;

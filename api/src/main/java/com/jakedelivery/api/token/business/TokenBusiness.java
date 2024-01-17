@@ -1,11 +1,11 @@
 package com.jakedelivery.api.token.business;
 
-import com.jakedelivery.api._core.common.annotation.Business;
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
 import com.jakedelivery.api.token.converter.TokenConverter;
 import com.jakedelivery.api.token.dto.TokenResponse;
 import com.jakedelivery.api.token.service.TokenService;
+import com.jakedelivery.common.annotation.Business;
+import com.jakedelivery.common.error.ErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import com.jakedelivery.db.BaseEntity;
 import com.jakedelivery.db.user.UserEntity;
 import lombok.RequiredArgsConstructor;

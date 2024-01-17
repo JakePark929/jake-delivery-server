@@ -1,9 +1,9 @@
 package com.jakedelivery.api._core.interceptor;
 
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.error.TokenErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
 import com.jakedelivery.api.token.business.TokenBusiness;
+import com.jakedelivery.common.error.ErrorCode;
+import com.jakedelivery.common.error.TokenErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;

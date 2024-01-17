@@ -1,9 +1,9 @@
 package com.jakedelivery.api.token.service;
 
-import com.jakedelivery.api._core.common.error.ErrorCode;
-import com.jakedelivery.api._core.common.exception.ApiException;
 import com.jakedelivery.api.token.ifs.TokenHelperIfs;
 import com.jakedelivery.api.token.model.Token;
+import com.jakedelivery.common.error.ErrorCode;
+import com.jakedelivery.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

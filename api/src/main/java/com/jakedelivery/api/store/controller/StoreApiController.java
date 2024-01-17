@@ -1,8 +1,8 @@
 package com.jakedelivery.api.store.controller;
 
-import com.jakedelivery.api._core.common.Api;
 import com.jakedelivery.api.store.business.StoreBusiness;
 import com.jakedelivery.api.store.dto.StoreResponse;
+import com.jakedelivery.common.Api;
 import com.jakedelivery.db._common.constant.StoreCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

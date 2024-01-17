@@ -6,13 +6,20 @@ import com.jakedelivery.db.storemenu.StoreMenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class StoreMenuService {
     private final StoreMenuRepository storeMenuRepository;
 
     public StoreMenuEntity getStoreMenuWithThrow(Long id) {
-        return storeMenuRepository.findFirstByIdAndStatusOrderByIdDesc(id, StoreMenuStatus.REGISTERED)
+        return Optional.ofNullable(
+                    storeMenuRepository.findFirstByIdAndStatusOrderByIdDesc(
+                            id,
+                            StoreMenuStatus.REGISTERED
+                    )
+                )
                 .orElseThrow(() -> new RuntimeException("Store menu not found"));
     }
 }

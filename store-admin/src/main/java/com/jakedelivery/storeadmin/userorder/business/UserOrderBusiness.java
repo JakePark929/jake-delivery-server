@@ -31,7 +31,7 @@ public class UserOrderBusiness {
 
         // 3. 스토어 찾기
         // 4. 연결된 세션 찾아서
-        var userConnection = sseConnectionPool.getSession(userOrderEntity.getStoreId().toString());
+        var userConnection = sseConnectionPool.getSession(userOrderEntity.getStore().getId().toString());
 
         // user order entity
         // user order menu
@@ -39,7 +39,7 @@ public class UserOrderBusiness {
 
         // user order menu -> store menu
         var storeMenuResponses = userOrderMenuList.stream()
-                .map(it -> storeMenuService.getStoreMenuWithThrow(it.getStoreMenuId()))
+                .map(it -> storeMenuService.getStoreMenuWithThrow(it.getStoreMenu().getId()))
                 .map(storeMenuConverter::toResponse)
                 .collect(Collectors.toList());
 

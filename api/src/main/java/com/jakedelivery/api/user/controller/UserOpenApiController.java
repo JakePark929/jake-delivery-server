@@ -1,11 +1,11 @@
 package com.jakedelivery.api.user.controller;
 
-import com.jakedelivery.api._core.common.Api;
 import com.jakedelivery.api.token.dto.TokenResponse;
 import com.jakedelivery.api.user.business.UserBusiness;
 import com.jakedelivery.api.user.dto.UserResponse;
 import com.jakedelivery.api.user.dto.request.UserLoginRequest;
 import com.jakedelivery.api.user.dto.request.UserRegisterRequest;
+import com.jakedelivery.common.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,10 +1,10 @@
 package com.jakedelivery.api.store.business;
 
-import com.jakedelivery.api._core.common.annotation.Business;
 import com.jakedelivery.api.store.converter.StoreConverter;
 import com.jakedelivery.api.store.dto.StoreRegisterRequest;
 import com.jakedelivery.api.store.dto.StoreResponse;
 import com.jakedelivery.api.store.service.StoreService;
+import com.jakedelivery.common.annotation.Business;
 import com.jakedelivery.db._common.constant.StoreCategory;
 import lombok.RequiredArgsConstructor;
 

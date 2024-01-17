@@ -9,6 +9,8 @@ import com.jakedelivery.storeadmin.storeuser.dto.StoreUserResponse;
 import com.jakedelivery.storeadmin.storeuser.service.StoreUserService;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Business
 public class StoreUserBusiness {
@@ -19,7 +21,7 @@ public class StoreUserBusiness {
     public StoreUserResponse register(
             StoreUserRegisterRequest request
     ) {
-        var storeEntity = storeRepository.findFirstByNameAndStatusOrderByIdDesc(request.getStoreName(), StoreStatus.REGISTERED);
+        var storeEntity = Optional.ofNullable(storeRepository.findFirstByNameAndStatusOrderByIdDesc(request.getStoreName(), StoreStatus.REGISTERED));
         var entity = storeUserConverter.toEntity(request, storeEntity.get()); // TODO: Null point error check
         var newEntity = storeUserService.register(entity);
 
