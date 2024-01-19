@@ -30,7 +30,7 @@ class ServiceApiPrivateFilter : AbstractGatewayFilterFactory<ServiceApiPrivateFi
             log.info("service api private filter route uri : {}", uri)
 
             // account server 를 통한 인증 실행
-            // 1. 토큰의 유무
+            // 1. 토큰 유무 확인
             val headers = exchange.request.headers["authorization-token"] ?: listOf()
 
             val token = if (headers.isEmpty()) {
@@ -40,7 +40,7 @@ class ServiceApiPrivateFilter : AbstractGatewayFilterFactory<ServiceApiPrivateFi
             }
             log.info("authorization token : {}", token)
 
-            // 2. 토큰 유효성
+            // 2. 토큰 유효성 검사
             val accountApiUrl = UriComponentsBuilder
                 .fromUriString("http://localhost")
                 .port(8082)
@@ -81,10 +81,21 @@ class ServiceApiPrivateFilter : AbstractGatewayFilterFactory<ServiceApiPrivateFi
                     log.info("response : {}", response)
 
                     // 3. 사용자 정보 추가
+                    val userId = response.userId?.toString()
 
-                    val mono = chain.filter(exchange)
+                    val proxyRequest = exchange.request.mutate()
+                        .header("x-user-id", userId)
+                        .build()
+
+                    val requestBuild = exchange.mutate().request(proxyRequest).build()
+
+                    val mono = chain.filter(requestBuild)
 
                     mono
+                }
+                .onErrorMap {e ->
+                    log.error("", e)
+                    e
                 }
         }
     }

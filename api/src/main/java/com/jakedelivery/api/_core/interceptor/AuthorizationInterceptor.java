@@ -1,8 +1,6 @@
 package com.jakedelivery.api._core.interceptor;
 
-import com.jakedelivery.api.token.business.TokenBusiness;
 import com.jakedelivery.common.error.ErrorCode;
-import com.jakedelivery.common.error.TokenErrorCode;
 import com.jakedelivery.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +19,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Component
 public class AuthorizationInterceptor implements HandlerInterceptor {
-    private final TokenBusiness tokenBusiness;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.info("Authorization Interceptor url : {}", request.getRequestURI());
@@ -38,19 +34,14 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         }
 
         // header 검증 로직
-        var accessToken = request.getHeader("authorization-token");
-        if (accessToken == null) {
-            throw new ApiException(TokenErrorCode.AUTHORIZATION_TOKEN_NOT_FOUND);
+        var userId = request.getHeader("x-user-id");
+        if (userId == null) {
+            throw new ApiException(ErrorCode.BAD_REQUEST, "x-user-id header 없음");
         }
 
-        var userId = tokenBusiness.validationAccessToken(accessToken);
-        if(userId != null) {
-            var requestContext = Objects.requireNonNull(RequestContextHolder.getRequestAttributes());
-            requestContext.setAttribute("userId", userId, RequestAttributes.SCOPE_REQUEST);
-            
-            return true;
-        }
+        var requestContext = Objects.requireNonNull(RequestContextHolder.getRequestAttributes());
+        requestContext.setAttribute("userId", userId, RequestAttributes.SCOPE_REQUEST);
 
-        throw new ApiException(ErrorCode.BAD_REQUEST, "인증 실패");
+        return true;
     }
 }
