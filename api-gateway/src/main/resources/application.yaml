@@ -1,0 +1,14 @@
+server:
+  port: 9090
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: public-service-api # name
+          uri: http://localhost:8080 # api server address
+          predicates:
+            - Path=/service-api/open-api/**
+          filters:
+            - RewritePath=/service-api(?<segment>/?.*), $\{segment}
+            - ServiceApiPublicFilter
