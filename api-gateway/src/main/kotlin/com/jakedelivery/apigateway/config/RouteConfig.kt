@@ -1,4 +1,4 @@
-package com.jakedelivery.apigateway.route
+package com.jakedelivery.apigateway.config
 
 import com.jakedelivery.apigateway.filter.ServiceApiPrivateFilter
 import org.springframework.cloud.gateway.route.RouteLocator
