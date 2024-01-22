@@ -1,4 +1,5 @@
 <configuration>
+    <springProperty scope="context" name="server-name" source="server.name"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are assigned the type
@@ -25,8 +26,33 @@
         </encoder>
     </appender>
 
+    <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5000</destination>
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <!-- the pattern that defines what to include -->
+                    <pattern>
+                        {
+                            "level": "%level",
+                            "thread": "%thread",
+                            "logger": "%logger",
+                            "class": "%class",
+                            "method": "%method",
+                            "line": "%line",
+                            "message": "%message",
+                            "server-name": "${server-name}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
     <root level="DEBUG">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STASH"/>
     </root>
 </configuration>

@@ -6,18 +6,21 @@ import com.jakedelivery.db._common.constant.UserOrderStatus;
 import com.jakedelivery.db.userorder.UserOrderEntity;
 import com.jakedelivery.db.userorder.UserOrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserOrderService {
     private final UserOrderRepository userOrderRepository;
 
     public UserOrderEntity getUserOrderWithOutStatusWithThrow(Long id, Long userId) {
+        log.info("userId: {}", id);
         return Optional.ofNullable(userOrderRepository.findAllByIdAndUserId(id, userId))
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
     }
