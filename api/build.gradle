@@ -30,6 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // swagger ui
     // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
@@ -45,6 +46,13 @@ dependencies {
 
     // rabbit mq
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+    // logstash
+    // https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '7.3'
+
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.1'
+
 
     // kotlin
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'

@@ -18,6 +18,8 @@ public class LoggerFilter implements Filter {
         var req = new ContentCachingRequestWrapper((HttpServletRequest) request);
         var res = new ContentCachingResponseWrapper((HttpServletResponse) response);
 
+        log.info("INIT URI : {}", req.getRequestURI());
+
         chain.doFilter(req, res);
 
         // request 정보
@@ -49,7 +51,7 @@ public class LoggerFilter implements Filter {
 
         var responseBody = new String(res.getContentAsByteArray());
 
-        log.info("<<<<< uri [ {} ], method [ {} ], header [ {} ], body [ {} ]", uri, method, responseHeaderValues, responseBody);
+//        log.info("<<<<< uri [ {} ], method [ {} ], header [ {} ], body [ {} ]", uri, method, responseHeaderValues, responseBody);
 
         res.copyBodyToResponse();
     }
